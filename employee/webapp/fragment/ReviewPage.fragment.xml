@@ -1,0 +1,57 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" 
+                         xmlns:mvc="sap.ui.core.mvc" 
+                         xmlns="sap.m"  
+                         xmlns:form="sap.ui.layout.form">
+		 <form:SimpleForm id="formTipo"
+				title="1. {i18n>tipoEmpleado}"
+				minWidth="1024"
+				editable="false"
+				layout="ResponsiveGridLayout">
+			<form:content>
+				<Label id="labelTipo" text="{i18n>tipo}"/>
+				<Text id="textTipo" text="{=${/_type} === 'interno' ? ${i18n>interno} : ${/_type} === 'autonomo' ? ${i18n>autonomo} : ${i18n>gerente}}"/>
+				<Link id="linkEditar" press="editStepOne" text="{i18n>editar}" />
+			</form:content>
+		</form:SimpleForm>
+		
+		<form:SimpleForm id="formDatosEmp"
+				title="2. {i18n>datosEmpleado}"
+				minWidth="1024"
+				editable="false"
+				layout="ResponsiveGridLayout">
+			<form:content>
+				<Label  id="labelNombres" text="{i18n>nombre}"/>
+				<Text   id="textNombre" text="{/FirstName}"/>
+				<Label  id="labelApellido" text="{i18n>apellidos}"/>
+				<Text   id="textApellidos" text="{/LastName}"/>
+				<Label  id="labelDni" text="{= ${/_type} === 'autonomo' ? ${i18n>CIF} : ${i18n>DNI}}"/>
+				<Text   id="textDni" text="{/Dni}"/>
+				<Label  id="labelSalario" text="{= ${/_type} === 'autonomo' ? ${i18n>precioDiario} : ${i18n>salarioBrutoAnual}}"/>
+				<Text   id="textSalario" text="{/_Salary}"/>
+				<Label  id="labelFecha" text="{i18n>fechaIncorporacion}"/>
+				<Text   id="textFecha" text="{path:'/CreationDate',type:'sap.ui.model.type.Date'}"/>
+				<Link   id="linkEdit" press="editStepTwo" text="{i18n>editar}" />
+			</form:content>
+		</form:SimpleForm>
+		
+		<form:SimpleForm id="formInfAdic"
+				title="3. {i18n>infoAdicional}"
+				minWidth="1024"
+				editable="false"
+				layout="ResponsiveGridLayout">
+			<form:content>
+				<Label id="labelComentario" text="{i18n>comentario}"/>
+				<Text  id="textComentario" text="{/Comments}"/>
+				<Label id="labelDoc" text="{i18n>documentos}"/>
+				<Text  id="textDoc" text="{/_numFiles} {i18n>ficheros}"/>
+				<Label id="label" />
+				<List id="listFiles" items="{/_files}">
+					<items>
+						<StandardListItem id="listItemDoc" title="{DocName}"></StandardListItem>
+					</items>
+				</List>
+				<Link  id="linkEdit2" press="editStepThree" text="{i18n>editar}" />
+			</form:content>
+		</form:SimpleForm> 
+		
+</core:FragmentDefinition>

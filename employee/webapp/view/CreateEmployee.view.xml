@@ -1,0 +1,128 @@
+<mvc:View
+    controllerName="logaligroup.employee.controller.CreateEmployee"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true"
+    xmlns="sap.m">
+
+	<Page id="pageCreateEmp" title="{i18n>crearEmpleado}">
+		<content>
+			<NavContainer id="wizardNavContainer">
+				<pages>
+					<Page id="pageHeader" showHeader="false">
+						<content>
+							<Wizard id="wizard" complete="wizardCompletedHandler">
+								<WizardStep id="typeEmployeeStep" title="{i18n>tipoEmpleado}" validated="false">
+									<MessageStrip id="mesStep" class="sapUiSmallMarginBottom"
+												  text="{i18n>step1}"
+												  showIcon="true"/>
+									<FlexBox id="flexBoxStep" alignItems="Center" justifyContent="Center">
+									    <Button id="buttonInterno" text="{i18n>interno}" press="toStep2" class="sapUiSmallMarginEnd">
+										    <customData>
+											    <core:CustomData key="typeEmployee" value="interno"/>
+										    </customData>
+									    </Button>
+										<Button id="buttonAutonomo" text="{i18n>autonomo}" press="toStep2" class="sapUiSmallMarginEnd">
+											<customData>
+												<core:CustomData key="typeEmployee" value="autonomo"/>
+											</customData>
+										</Button>
+										<Button  id="buttonGerente" text="{i18n>gerente}" press="toStep2">
+											<customData>
+												<core:CustomData key="typeEmployee" value="gerente"/>
+											</customData>
+										</Button>
+									</FlexBox>
+								</WizardStep>
+
+								<WizardStep id="dataEmployeeStep"
+											validated="false"
+											title="{i18n>datosEmpleado}">
+									<MessageStrip id="mesStep2" class="sapUiSmallMarginBottom" text="{i18n>step2}" showIcon="true"/>
+										<form:SimpleForm id="formDatos" editable="true">
+				                            <Label id="labelNombre" text="{i18n>nombre}" required="true"/>
+											<Input id="inputNombre" valueState="{/_FirstNameState}" change="dataEmployeeValidation" value="{/FirstName}"/>
+											<Label id="labelApellidos" text="{i18n>apellidos}" required="true"/>
+											<Input id="inputApellidos" valueState="{/_LastNameState}" change="dataEmployeeValidation" value="{/LastName}"/>
+											<Label id="labelType1" text="{= ${/_type} === 'autonomo' ? ${i18n>cif} : ${i18n>dni}}" required="true"/>
+											<Input id="inputType1" value="{/Dni}" valueState="{/_DniState}" change="validateDNI"/>
+											<Label id="labelType2" text="{= ${/_type} === 'autonomo' ? ${i18n>precioDiario} : ${i18n>salarioBrutoAnual}}"/>
+											<VBox id="vBoxSalary">
+												<Slider id="sliderSalaryInt" value="{/_Salary}"
+														min="12000" 
+														max="80000"
+														step="1000" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														width="100%" progress="false" class="sapUiSmallMarginBottom" 
+														visible="{=  ${/_type} === 'interno'}">
+												    <ResponsiveScale id="respSalaryInt" tickmarksBetweenLabels="100"/>
+												</Slider>
+												<Slider id="sliderSalaryAut" value="{/_Salary}"
+														min="100" 
+														max="2000"
+														step="100" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														width="100%" progress="false" class="sapUiSmallMarginBottom"
+														visible="{=  ${/_type} === 'autonomo'}">
+													<ResponsiveScale id="respSalaryAut" tickmarksBetweenLabels="100"/>
+												</Slider>
+												<Slider id="sliderSalaryGer" value="{/_Salary}"
+														min="50000" 
+														max="200000"
+														step="1000" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														width="100%" progress="false" class="sapUiSmallMarginBottom"
+														visible="{=  ${/_type} === 'gerente'}">
+													<ResponsiveScale id="respSalaryGer" tickmarksBetweenLabels="100"/>
+												</Slider>
+											</VBox>
+											<Label id="labelFechaInc" text="{i18n>fechaIncorporacion}" required="true"/>
+											<DatePicker id="datePicFechaInc" dateValue="{/CreationDate}" valueState="{/_CreationDateState}" change="dataEmployeeValidation"/>
+										</form:SimpleForm>
+								</WizardStep>
+
+								<WizardStep id="OptionalInfoStep"
+											validated="true"
+											activate="optionalStepActivation"
+											title="{i18n>infoAdicional}">
+							        <MessageStrip id="mesStep3" class="sapUiSmallMarginBottom"
+												  text="{i18n>step3}"
+												  showIcon="true"/>
+										<Label id="labelCom" text="{i18n>comentario}" width="100%"/>
+										<TextArea id="textCom" value="{/Comments}" width="100%"/>
+										<UploadCollection id="UploadCollection"
+													      maximumFilenameLength="55"
+													      maximumFileSize="10"
+													      multiple="true"
+													      uploadUrl="sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+													      sameFilenameAllowed="true"
+													      instantUpload="false"
+													      change="onFileChange"
+													      beforeUploadStarts="onBeforeUploadStart"
+													      noDataDescription="{i18n>arrastrarFicheros}"/>
+
+								</WizardStep>
+							</Wizard>
+						</content>
+							<footer>
+								<OverflowToolbar id="overToolCanc">
+									<ToolbarSpacer id="toolbarCanc"/>
+									<Button id="buttonCanc" text="{i18n>cancelar}" press="onCancel"/>
+								</OverflowToolbar>
+							</footer>
+					</Page>
+							<Page id="ReviewPage" title="{i18n>resumen}">
+						        <core:Fragment fragmentName="logaligroup.employee.fragment.ReviewPage" type="XML"/>
+								<footer>
+									<Toolbar id="toobarGuardar">
+										<ToolbarSpacer id="toobarSpaGuardar"/>
+										<Button id="buttonGuardar" text="{i18n>guardar}" press="onSaveEmployee"/>
+										<Button id="buttonCancelar" text="{i18n>cancelar}" press="onCancel"/>
+									</Toolbar>
+								</footer>
+							</Page>
+			    </pages>
+			</NavContainer>
+		</content>
+	</Page>
+
+</mvc:View>

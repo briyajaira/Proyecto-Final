@@ -1,0 +1,26 @@
+<mvc:View
+    controllerName="logaligroup.employee.controller.Menu"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+
+<Page id="page" title="{i18n>menuPrincipal}">
+    <content>
+		<Panel id="panelEmp" headerText="{i18n>empleados}" expandable="true" expanded="true">
+			<GenericTile id="genTitCrear" headerImage="sap-icon://add-employee" class="sapUiTinyMarginBegin sapUiTinyMarginTop" press="navToCreateEmployee">
+				<TileContent id="tileContCrear" footer="{i18n>crearEmpleado}"/>
+			</GenericTile>
+			<GenericTile  id="genTitVis" headerImage="sap-icon://employee-lookup" class="sapUiTinyMarginBegin sapUiTinyMarginTop" press="navToShowEmployee">
+				<TileContent id="tileContVis" footer="{i18n>verEmpleados}"/>
+			</GenericTile>
+		</Panel>
+		<Panel id="panelFirma" headerText="{i18n>pedidos}"  expandable="true" expanded="true">
+			<GenericTile id="linkFirmarPedido"  headerImage="sap-icon://signature" class="sapUiTinyMarginBegin sapUiTinyMarginTop" press="firmaPedidos" url="https://08899d6dtrial-dev-logali-approuter.cfapps.us10.hana.ondemand.com/logaligroupemployees/index.html" >
+				<TileContent id="tileContFir" footer="{i18n>firmarPedido}"/>
+			</GenericTile>
+		</Panel>
+	</content>
+</Page>
+
+</mvc:View>
